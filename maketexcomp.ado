@@ -6,7 +6,7 @@
 *     Bash/Batch script calling pdflatex on a given LaTeX source code file     *
 *                                                                              *
 * Lines -                                                                      *
-*     80                                                                       *
+*     98                                                                       *
 *                                                                              *
 ********************************************************************************
 		
@@ -34,7 +34,7 @@ prog def maketexcomp, rclass
 		loc pdflatex pdflatex
 		
 	} // End IF Block for null pdflatex binary reference
-	
+		
 	// Check if user is running on Windoze
 	if `"`c(os)'"' == "Windows" {
 	
@@ -46,6 +46,15 @@ prog def maketexcomp, rclass
 		file write comp `"`pdflatex'.exe `filenm'"' _n
 		file write comp `"`pdflatex'.exe `filenm'"' _n
 		file write comp `"`pdflatex'.exe `filenm'"' _n
+
+		// Loop over ancillary file extensions
+		foreach v in aux lof log lot out toc {
+
+			// Delete ancillary files
+			file write comp `"DEL "`root'/`output'.`v'""' _n
+
+		} // End Loop over ancillary file extensions
+		
 		file write comp "" _n
 		file write comp "" _n
 		file close comp
@@ -63,6 +72,15 @@ prog def maketexcomp, rclass
 		file write comp `"`pdflatex' `filenm'"' _n
 		file write comp `"`pdflatex' `filenm'"' _n
 		file write comp `"`pdflatex' `filenm'"' _n
+
+		// Loop over ancillary file extensions
+		foreach v in aux lof log lot out toc {
+
+			// Delete ancillary files
+			file write comp `"sudo rm "`root'/`output'.`v'""' _n
+
+		} // End Loop over ancillary file extensions
+		
 		file write comp "" _n
 		file close comp
 
